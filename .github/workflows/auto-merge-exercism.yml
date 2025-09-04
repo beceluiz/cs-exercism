@@ -9,21 +9,12 @@ permissions:
   contents: write
 
 jobs:
-  # This job will always run to show the correct author username in the logs.
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print the PR author's username
-        run: |
-          echo "The pull request author is: ${{ github.event.pull_request.user.login }}"
-
   # This job will attempt to auto-merge the PR.
   automerge:
     # This job waits for the debug job to finish first.
-    needs: debug
     runs-on: ubuntu-latest
     # IMPORTANT: Update this username after you find the correct one from the 'debug' job logs.
-    if: github.event.pull_request.user.login == 'exercism-solutions-syncer'
+    if: github.event.pull_request.user.login == 'exercism-solutions-syncer[bot]'
     steps:
       - name: Enable auto-merge
         uses: peter-evans/enable-pull-request-automerge@v3
