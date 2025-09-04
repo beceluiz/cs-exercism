@@ -4,6 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, edited]
 
+# Permissions required for the peter-evans action to work
 permissions:
   pull-requests: write
   contents: write
@@ -11,10 +12,11 @@ permissions:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+    # This job only runs for PRs opened by the specified user
     if: github.event.pull_request.user.login == 'exercism-solutions-syncer'
     steps:
       - name: Debug PR author
-        run: echo "PR author: ${{ github.event.pull_request.user.login }}"
+        run: echo "PR author is ${{ github.event.pull_request.user.login }}"
 
       - name: Enable auto-merge
         uses: peter-evans/enable-pull-request-automerge@v3
